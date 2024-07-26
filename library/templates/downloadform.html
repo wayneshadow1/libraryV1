@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<div style="margin: 0;
+position: absolute;
+top: 50%;
+-ms-transform: translateY(-50%);
+transform: translateY(-50%);" class="container-fluid">
+<h1 class="text-light"> FIND YOUR ITEM USING YOUR ITEM ID</h1>
+
+
+<form method="POST">
+    {% csrf_token %}
+    {{form}}  
+    <input type="submit" value="submit">
+</form>
+</div>
+{% endblock %}

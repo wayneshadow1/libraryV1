@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+    
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active" aria-current="page">Home</li>
+            </ol>
+          </nav>
+       
+        <table class="table table-dark table-striped-rows">
+            <thead>
+            <tr>
+                <th scope="col">Document name</th>
+                <th scope="col">Download Link </th>
+                <th scope="col"> Document Status</th>
+                <th scope="col"> Author</th>
+                <th scope="col">Document or Item Type</th>
+                <th scope="col">Item Id</th>
+            </tr>
+            </thead>
+            <tbody>
+            {%for o in all_objects %}
+            <tr>
+                <td scope="row">{{o.Name}}</td>
+                <td><a href="{%  url 'download_view' i=o.item_id %}" class="btn btn-outline-primary" preload >Download </a></td>
+                {% if o.publicity_status == "PUBLIC" %}
+                <td><span class="badge rounded-pill bg-primary"> {{o.publicity_status}}</span></td>
+                {% else %}
+                <td><span class="badge rounded-pill bg-danger"> {{o.publicity_status}}</span></td>
+                {% endif %}
+                <td>{{o.author}}</td>
+                <td>{{o.asset_item_type.Name}}</td>
+                <td>{{o.item_id}}</td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </body>
+
+{% endblock %}

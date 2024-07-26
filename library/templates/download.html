@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block content %}
+<h5>
+    <nav aria-label="breadcrumb"  style="--bs-breadcrumb-divider: '>';">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item " ><a href="{%  url 'main_view' %}">Library</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'download_form_view' %}">Download</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{file.Name}}</li>
+        </ol>
+      </nav>
+      </h5>
+
+        {% if request.user.is_authenticated  and  file.publicity_status == 'PRIVATE'  %}
+        
+        
+          <div style=" margin: 0;
+position: absolute;
+top: 50%;
+-ms-transform: translateY(-50%);
+transform: translateY(-50%);" class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <embed src="{{file.file.url}}" style="width:50%;height:70%;"
+  type="application/pdf">
+        </div>
+        <div class="col">
+            <h2 class="text-light"> Item Name :{{file.Name}}</h2>
+            {% if file.publicity_status == "PUBLIC" %}
+                
+ 
+                <span class="badge rounded-pill bg-danger"> {{file.publicity_status}}</span>
+                {% endif %}
+             <h5 class="text-light">
+                Author: {{file.author}}        
+             </h5>
+             
+             <h6 class="text-light">
+                ITEM TYPE: <span class="badge rounded-pill bg-success"> {{file.asset_item_type}}</span>        
+             </h6>
+             </span>
+             <p class="text-light">
+                Description:{{file.description}}
+            </p>
+            <button type="button" class="btn btn-outline-primary" id="dbtn"> Download </button>
+        </div>
+    </div>
+        
+        
+        <script>
+            function download() {
+    
+                //creating an invisible element
+    
+                let element = document.createElement('a');
+                element.setAttribute('href',"{{file.file.url}}");
+                element.setAttribute('download', "{{file.Name}}");
+                document.body.appendChild(element);
+                element.click();
+    
+                document.body.removeChild(element);
+            }
+    
+            // Start file download.
+    
+            document.getElementById("dbtn")
+                .addEventListener("click", function () {
+                    
+    
+                    download();
+                }, false);
+        </script>
+        {% elif file.publicity_status == 'PUBLIC'  %}
+        <div style=" margin: 0;
+position: absolute;
+top: 50%;
+-ms-transform: translateY(-50%);
+transform: translateY(-50%);" class="container">
+        <div class="row">
+            <div class="col">
+                <object class="pdf" 
+            data=
+"{{file.file.url}}"
+            width="800"
+            height="500">
+            </div>
+            <div class="col">
+                <h2 class="text-light"> Item Name :{{file.Name}}</h2>
+                {% if file.publicity_status == "PUBLIC" %}
+                <span class="badge rounded-pill bg-primary"> {{file.publicity_status}}</span>
+                {% else %}
+                <span class="badge rounded-pill bg-danger"> {{file.publicity_status}}</span>
+                {% endif %}
+                 <h5 class="text-light">
+                    Author: {{file.author}}        
+                 </h5>
+                 
+                 <h6 class="text-light">
+                    ITEM TYPE: <span class="badge rounded-pill bg-success"> {{file.asset_item_type}}</span>        
+                 </h6>
+                 </span>
+                 <p class="text-light">
+                    Description:{{file.description}}
+                </p>
+                <button type="button" class="btn btn-outline-primary" id="dbtn"> Download </button>
+            </div>
+        </div>
+        </div>
+        
+        
+        <script>
+            function download(file) {
+    
+                //creating an invisible element
+    
+                let element = document.createElement('a');
+                element.setAttribute('href',"{{file.file.url}}");
+                element.setAttribute('download', "{{file.Name}}");
+                document.body.appendChild(element);
+                element.click();
+    
+                document.body.removeChild(element);
+            }
+    
+            // Start file download.
+    
+            document.getElementById("dbtn")
+                .addEventListener("click", function () {
+                    
+                    
+    
+                    download();
+                }, false);
+        </script>
+        {% else %}
+        <h1> you do not have access</h1>
+        {% endif %}
+       
+      
+
+{% endblock %}
